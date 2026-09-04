@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>AI Keyword Research Tool | IncomeAIHub by M.Dev</title>
+<meta name="description" content="AI-powered Keyword Research Tool — related keywords, long-tail keywords, questions, intent clusters & content ideas for freelancers, CA firms & MSMEs.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#0b0c10;
+    --bg-alt:#111319;
+    --panel:#15171f;
+    --panel-2:#1b1e28;
+    --border:#262a36;
+    --border-soft:#1f222c;
+    --gold:#d4af37;
+    --gold-soft:#f2d98a;
+    --emerald:#2ecc9c;
+    --emerald-soft:#7be0c4;
+    --violet:#8b7bff;
+    --violet-soft:#b3a8ff;
+    --text:#f3f2ee;
+    --text-dim:#a7a9b4;
+    --text-mute:#6f7180;
+    --danger:#ff6b6b;
+    --radius:14px;
+    --radius-sm:9px;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+    --font-head:'Syne', sans-serif;
+    --font-body:'DM Sans', sans-serif;
+    --font-mono:'DM Mono', monospace;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 10% -10%, rgba(139,123,255,.10), transparent 60%),
+      radial-gradient(1000px 500px at 100% 0%, rgba(46,204,156,.08), transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.5;
+    min-height:100vh;
+  }
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .container{max-width:1180px; margin:0 auto; padding:0 20px;}
+
+  /* ---------- Header ---------- */
+  header.site-header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,12,16,.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:38px; height:38px; border-radius:10px;
+    background:linear-gradient(135deg, var(--gold), var(--emerald));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--font-head); font-weight:800; color:#0b0c10; font-size:16px;
+  }
+  .brand-text{display:flex; flex-direction:column; line-height:1.1;}
+  .brand-text b{font-family:var(--font-head); font-size:15px; letter-spacing:.2px;}
+  .brand-text span{font-size:11px; color:var(--text-mute); font-family:var(--font-mono);}
+  .header-actions{display:flex; align-items:center; gap:10px;}
+  .icon-btn{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text-dim);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; font-size:16px; transition:.2s;
+  }
+  .icon-btn:hover{border-color:var(--gold); color:var(--gold);}
+  .status-pill{
+    font-family:var(--font-mono); font-size:11px;
+    border:1px solid var(--border); border-radius:100px;
+    padding:6px 12px; color:var(--text-dim); display:flex; align-items:center; gap:6px;
+  }
+  .status-dot{width:7px; height:7px; border-radius:50%; background:var(--text-mute);}
+  .status-pill.unlocked{border-color:var(--emerald); color:var(--emerald-soft);}
+  .status-pill.unlocked .status-dot{background:var(--emerald); box-shadow:0 0 8px var(--emerald);}
+  .status-pill.demo{border-color:var(--violet); color:var(--violet-soft);}
+  .status-pill.demo .status-dot{background:var(--violet); box-shadow:0 0 8px var(--violet);}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:48px 0 20px; text-align:center;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--font-mono); font-size:11.5px; letter-spacing:.5px;
+    color:var(--gold-soft); border:1px solid rgba(212,175,55,.35);
+    background:rgba(212,175,55,.06);
+    padding:6px 14px; border-radius:100px; margin-bottom:18px;
+  }
+  h1{
+    font-family:var(--font-head); font-weight:800;
+    font-size:clamp(28px, 4.4vw, 46px);
+    line-height:1.12; letter-spacing:-.5px;
+    background:linear-gradient(120deg, var(--text) 30%, var(--gold-soft) 60%, var(--emerald-soft) 90%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p.sub{
+    max-width:620px; margin:16px auto 0; color:var(--text-dim); font-size:15.5px;
+  }
+
+  /* ---------- Search Panel ---------- */
+  .search-panel{
+    margin:34px auto 0; max-width:820px;
+    background:linear-gradient(180deg, var(--panel), var(--panel-2));
+    border:1px solid var(--border); border-radius:var(--radius);
+    padding:22px; box-shadow:var(--shadow);
+  }
+  .search-row{display:flex; gap:10px; flex-wrap:wrap;}
+  .field{flex:1 1 220px; display:flex; flex-direction:column; gap:6px;}
+  .field label{font-size:11.5px; color:var(--text-mute); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:.4px;}
+  input[type=text], select, textarea{
+    background:var(--bg-alt); border:1px solid var(--border); color:var(--text);
+    padding:12px 14px; border-radius:var(--radius-sm); font-size:14.5px; font-family:var(--font-body);
+    width:100%; outline:none; transition:.2s;
+  }
+  input[type=text]:focus, select:focus, textarea:focus{border-color:var(--gold); box-shadow:0 0 0 3px rgba(212,175,55,.12);}
+  .btn{
+    border:none; cursor:pointer; font-family:var(--font-body); font-weight:600; font-size:14.5px;
+    border-radius:var(--radius-sm); padding:12px 20px; transition:.2s; display:inline-flex; align-items:center; gap:8px; justify-content:center;
+  }
+  .btn-primary{
+    background:linear-gradient(120deg, var(--gold), #eccb5c);
+    color:#161200; box-shadow:0 6px 20px rgba(212,175,55,.25);
+  }
+  .btn-primary:hover{transform:translateY(-1px); box-shadow:0 8px 26px rgba(212,175,55,.35);}
+  .btn-primary:disabled{opacity:.55; cursor:not-allowed; transform:none;}
+  .btn-secondary{
+    background:var(--panel-2); color:var(--text); border:1px solid var(--border);
+  }
+  .btn-secondary:hover{border-color:var(--emerald); color:var(--emerald-soft);}
+  .btn-violet{background:linear-gradient(120deg, var(--violet), var(--violet-soft)); color:#100a2b;}
+  .search-actions{margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+  .quick-chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:14px;}
+  .chip{
+    font-family:var(--font-mono); font-size:11.5px; color:var(--text-dim);
+    border:1px dashed var(--border); border-radius:100px; padding:5px 12px; cursor:pointer; transition:.2s;
+  }
+  .chip:hover{border-color:var(--emerald); color:var(--emerald-soft);}
+
+  /* ---------- AdSense placeholders ---------- */
+  .ad-slot{
+    max-width:1180px; margin:24px auto; padding:14px; text-align:center;
+    border:1px dashed var(--border); border-radius:var(--radius-sm);
+    color:var(--text-mute); font-family:var(--font-mono); font-size:11px;
+    background:rgba(255,255,255,.015);
+  }
+
+  /* ---------- Results ---------- */
+  .results-wrap{max-width:1180px; margin:10px auto 60px;}
+  .tabs{
+    display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;
+    border-bottom:1px solid var(--border-soft); padding-bottom:12px;
+  }
+  .tab-btn{
+    background:var(--panel); border:1px solid var(--border); color:var(--text-dim);
+    padding:9px 16px; border-radius:100px; font-size:13px; font-family:var(--font-body); font-weight:600;
+    cursor:pointer; transition:.2s; display:flex; align-items:center; gap:6px;
+  }
+  .tab-btn .count{
+    background:var(--bg-alt); color:var(--text-mute); font-family:var(--font-mono); font-size:10.5px;
+    padding:1px 7px; border-radius:100px;
+  }
+  .tab-btn.active{border-color:var(--gold); color:var(--gold-soft); background:rgba(212,175,55,.08);}
+  .tab-btn.active .count{color:var(--gold-soft);}
+
+  .toolbar{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;}
+  .toolbar .left{color:var(--text-dim); font-size:13px;}
+  .toolbar .actions{display:flex; gap:8px;}
+
+  .panel-card{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    overflow:hidden;
+  }
+  table{width:100%; border-collapse:collapse; font-size:13.5px;}
+  thead th{
+    text-align:left; font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.4px;
+    color:var(--text-mute); background:var(--panel-2); padding:12px 16px; border-bottom:1px solid var(--border);
+    white-space:nowrap;
+  }
+  tbody td{padding:12px 16px; border-bottom:1px solid var(--border-soft); vertical-align:middle;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:rgba(255,255,255,.02);}
+  .kw-cell{display:flex; align-items:center; gap:8px; font-weight:500;}
+  .badge{
+    font-family:var(--font-mono); font-size:11px; padding:4px 10px; border-radius:100px; white-space:nowrap;
+  }
+  .badge.low{background:rgba(46,204,156,.12); color:var(--emerald-soft); border:1px solid rgba(46,204,156,.3);}
+  .badge.medium{background:rgba(212,175,55,.12); color:var(--gold-soft); border:1px solid rgba(212,175,55,.3);}
+  .badge.high{background:rgba(255,107,107,.12); color:#ffb0b0; border:1px solid rgba(255,107,107,.3);}
+  .badge.intent{background:rgba(139,123,255,.12); color:var(--violet-soft); border:1px solid rgba(139,123,255,.3);}
+  .copy-mini{
+    border:none; background:transparent; color:var(--text-mute); cursor:pointer; font-size:13px; padding:2px;
+  }
+  .copy-mini:hover{color:var(--gold);}
+  .locked-row td{filter:blur(3.5px); user-select:none; pointer-events:none;}
+
+  .empty-state, .loading-state{
+    padding:60px 20px; text-align:center; color:var(--text-mute);
+  }
+  .loading-state .spinner{
+    width:34px; height:34px; border-radius:50%; margin:0 auto 16px;
+    border:3px solid var(--border); border-top-color:var(--gold);
+    animation:spin 0.9s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .content-ideas-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:14px; padding:16px;}
+  .idea-card{
+    background:var(--panel-2); border:1px solid var(--border-soft); border-radius:var(--radius-sm);
+    padding:16px; display:flex; flex-direction:column; gap:8px;
+  }
+  .idea-card .idea-type{font-family:var(--font-mono); font-size:10.5px; color:var(--violet-soft); text-transform:uppercase;}
+  .idea-card h4{font-family:var(--font-head); font-size:15px; line-height:1.3;}
+  .idea-card p{font-size:12.5px; color:var(--text-dim);}
+
+  .cluster-group{margin-bottom:14px;}
+  .cluster-head{
+    display:flex; align-items:center; gap:10px; padding:12px 16px;
+    background:var(--panel-2); font-family:var(--font-head); font-size:14px; font-weight:700;
+    border-bottom:1px solid var(--border);
+  }
+
+  /* ---------- Locked overlay banner ---------- */
+  .unlock-banner{
+    display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    background:linear-gradient(120deg, rgba(212,175,55,.10), rgba(139,123,255,.08));
+    border:1px solid rgba(212,175,55,.3); border-radius:var(--radius);
+    padding:18px 20px; margin:18px 0;
+  }
+  .unlock-banner .ub-text b{font-family:var(--font-head); font-size:15px;}
+  .unlock-banner .ub-text p{font-size:12.5px; color:var(--text-dim); margin-top:3px;}
+
+  /* ---------- Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(6,7,10,.72); backdrop-filter:blur(4px);
+    display:none; align-items:center; justify-content:center; z-index:200; padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    max-width:480px; width:100%; padding:26px; box-shadow:var(--shadow); position:relative;
+    max-height:86vh; overflow-y:auto;
+  }
+  .modal.wide{max-width:640px;}
+  .modal-close{
+    position:absolute; top:14px; right:14px; background:transparent; border:none; color:var(--text-mute);
+    font-size:20px; cursor:pointer;
+  }
+  .modal-close:hover{color:var(--text);}
+  .modal h2{font-family:var(--font-head); font-size:20px; margin-bottom:6px;}
+  .modal .price-row{
+    display:flex; align-items:baseline; gap:8px; margin:18px 0;
+  }
+  .price-row .price{font-family:var(--font-head); font-size:32px; color:var(--gold-soft);}
+  .price-row .old-price{text-decoration:line-through; color:var(--text-mute); font-size:14px;}
+  .feature-list{list-style:none; margin:16px 0; display:flex; flex-direction:column; gap:10px;}
+  .feature-list li{display:flex; gap:10px; align-items:flex-start; font-size:13.5px; color:var(--text-dim);}
+  .feature-list li::before{content:"✓"; color:var(--emerald); font-weight:700; flex-shrink:0;}
+  .guide-body{font-size:14px; color:var(--text-dim); line-height:1.75;}
+  .guide-body h3{font-family:var(--font-head); color:var(--text); font-size:15.5px; margin:16px 0 6px;}
+  .guide-body ol, .guide-body ul{margin-left:18px; margin-bottom:8px;}
+  .lang-toggle{display:flex; gap:6px; margin-bottom:14px;}
+  .lang-toggle button{
+    flex:1; padding:8px; border-radius:8px; border:1px solid var(--border); background:var(--panel-2); color:var(--text-dim); font-size:12.5px; cursor:pointer;
+  }
+  .lang-toggle button.active{border-color:var(--gold); color:var(--gold-soft);}
+
+  /* ---------- Toast ---------- */
+  #toast-container{position:fixed; bottom:20px; right:20px; z-index:300; display:flex; flex-direction:column; gap:8px;}
+  .toast{
+    background:var(--panel); border:1px solid var(--border); border-left:3px solid var(--emerald);
+    padding:12px 16px; border-radius:var(--radius-sm); font-size:13px; box-shadow:var(--shadow);
+    animation:slideIn .25s ease; max-width:300px;
+  }
+  .toast.error{border-left-color:var(--danger);}
+  @keyframes slideIn{from{opacity:0; transform:translateX(20px);} to{opacity:1; transform:translateX(0);}}
+
+  footer{
+    border-top:1px solid var(--border-soft); padding:26px 20px; text-align:center;
+    color:var(--text-mute); font-size:12px; font-family:var(--font-mono);
+  }
+  footer b{color:var(--text-dim);}
+
+  @media(max-width:640px){
+    .header-inner{padding:12px 16px;}
+    .brand-text span{display:none;}
+    .search-panel{margin:24px 14px 0; padding:16px;}
+    table{font-size:12.5px;}
+    thead th, tbody td{padding:10px;}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <div class="brand-mark">IH</div>
+      <div class="brand-text">
+        <b>IncomeAIHub</b>
+        <span>by M.Dev</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="statusPill" class="status-pill"><span class="status-dot"></span><span id="statusText">Checking…</span></span>
+      <button class="icon-btn" id="guideBtn" title="Hindi Guide / गाइड देखें">?</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero container">
+  <span class="eyebrow">⚡ AI-Powered · Made for Indian Freelancers &amp; CA Firms</span>
+  <h1>AI Keyword Research Tool</h1>
+  <p class="sub">Ek seed keyword daaliye aur turant paayiye related keywords, long-tail suggestions, "People Also Ask" questions, intent-wise clusters aur ready content ideas — sab AI se generate.</p>
+</section>
+
+<div class="search-panel">
+  <div class="search-row">
+    <div class="field" style="flex:2 1 260px;">
+      <label for="seedKeyword">Seed Keyword</label>
+      <input type="text" id="seedKeyword" placeholder="e.g. GST return filing, resume banwana, wedding photography" />
+    </div>
+    <div class="field" style="flex:1 1 150px;">
+      <label for="countrySel">Country</label>
+      <select id="countrySel">
+        <option value="IN" selected>🇮🇳 India</option>
+        <option value="US">🇺🇸 United States</option>
+        <option value="GB">🇬🇧 United Kingdom</option>
+        <option value="AE">🇦🇪 UAE</option>
+        <option value="GLOBAL">🌐 Global</option>
+      </select>
+    </div>
+    <div class="field" style="flex:1 1 150px;">
+      <label for="langSel">Language</label>
+      <select id="langSel">
+        <option value="English" selected>English</option>
+        <option value="Hindi">Hindi</option>
+        <option value="Hinglish">Hinglish</option>
+      </select>
+    </div>
+  </div>
+  <div class="search-actions">
+    <button class="btn btn-primary" id="researchBtn">🔍 Research Keywords</button>
+    <button class="btn btn-secondary" id="clearBtn">Clear</button>
+    <span id="searchesLeft" style="font-family:var(--font-mono); font-size:11.5px; color:var(--text-mute);"></span>
+  </div>
+  <div class="quick-chips">
+    <span class="chip" data-kw="GST return filing">GST return filing</span>
+    <span class="chip" data-kw="freelance web designer">freelance web designer</span>
+    <span class="chip" data-kw="income tax calculator">income tax calculator</span>
+    <span class="chip" data-kw="wedding photographer Raipur">wedding photographer Raipur</span>
+    <span class="chip" data-kw="CA firm near me">CA firm near me</span>
+  </div>
+</div>
+
+<div class="ad-slot" id="adSlotTop">Advertisement — AdSense Slot (Top)</div>
+
+<main class="results-wrap container">
+
+  <div id="unlockBanner" class="unlock-banner" style="display:none;">
+    <div class="ub-text">
+      <b>🔒 Free plan: 10 results per tab</b>
+      <p>Poori keyword list, CSV export aur unlimited searches ke liye lifetime unlock lein — ek baar payment, hamesha ke liye.</p>
+    </div>
+    <button class="btn btn-primary" id="unlockCta">Unlock Lifetime — ₹499</button>
+  </div>
+
+  <div id="resultsArea" style="display:none;">
+    <div class="tabs" id="tabsBar">
+      <button class="tab-btn active" data-tab="related">Related Keywords <span class="count" id="cnt-related">0</span></button>
+      <button class="tab-btn" data-tab="longtail">Long-tail <span class="count" id="cnt-longtail">0</span></button>
+      <button class="tab-btn" data-tab="questions">Questions <span class="count" id="cnt-questions">0</span></button>
+      <button class="tab-btn" data-tab="clusters">Intent Clusters <span class="count" id="cnt-clusters">0</span></button>
+      <button class="tab-btn" data-tab="ideas">Content Ideas <span class="count" id="cnt-ideas">0</span></button>
+    </div>
+
+    <div class="toolbar">
+      <div class="left" id="toolbarInfo">Showing results for "<span id="toolbarKw">—</span>"</div>
+      <div class="actions">
+        <button class="btn btn-secondary" id="copyAllBtn">📋 Copy Visible</button>
+        <button class="btn btn-secondary" id="exportBtn">⬇ Export CSV</button>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <div id="tab-related" class="tab-panel"></div>
+      <div id="tab-longtail" class="tab-panel" style="display:none;"></div>
+      <div id="tab-questions" class="tab-panel" style="display:none;"></div>
+      <div id="tab-clusters" class="tab-panel" style="display:none;"></div>
+      <div id="tab-ideas" class="tab-panel" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div id="loadingState" class="loading-state panel-card" style="display:none;">
+    <div class="spinner"></div>
+    <p>AI keywords research kar raha hai… thoda intezaar kijiye</p>
+  </div>
+
+  <div id="emptyState" class="empty-state panel-card">
+    <p style="font-size:15px; color:var(--text-dim); margin-bottom:6px;">👆 Upar seed keyword daalkar research shuru karein</p>
+    <p style="font-size:12.5px;">Related keywords, long-tail phrases, questions, clusters aur content ideas — sab ek jagah.</p>
+  </div>
+
+</main>
+
+<div class="ad-slot" id="adSlotBottom">Advertisement — AdSense Slot (Bottom)</div>
+
+<footer>
+  <p><b>IncomeAIHub</b> by M.Dev · AI Keyword Research Tool · Made in Raipur, Chhattisgarh 🇮🇳</p>
+  <p style="margin-top:4px;">Payments secured by Razorpay · Data processed via Supabase</p>
+</footer>
+
+<!-- Unlock / Payment Modal -->
+<div class="modal-overlay" id="unlockModal">
+  <div class="modal">
+    <button class="modal-close" data-close-modal>✕</button>
+    <h2>🔓 Unlock Lifetime Access</h2>
+    <p style="color:var(--text-dim); font-size:13.5px;">One-time payment, no subscription, no monthly renewal.</p>
+    <div class="price-row">
+      <span class="price">₹499</span>
+      <span class="old-price">₹1,499</span>
+      <span style="color:var(--emerald-soft); font-size:12.5px; font-family:var(--font-mono);">67% OFF</span>
+    </div>
+    <ul class="feature-list">
+      <li>Unlimited keyword searches, forever</li>
+      <li>Full related, long-tail &amp; question keyword lists (no 10-result cap)</li>
+      <li>Intent-wise clustering + AI content ideas</li>
+      <li>Unlimited CSV export for client reports</li>
+      <li>All future updates to this tool included free</li>
+    </ul>
+    <button class="btn btn-primary" id="payNowBtn" style="width:100%;">Pay ₹499 &amp; Unlock Now</button>
+    <p style="text-align:center; font-size:11px; color:var(--text-mute); margin-top:10px;">🔒 Secured by Razorpay · Instant unlock after payment</p>
+  </div>
+</div>
+
+<!-- Hindi Guide Modal -->
+<div class="modal-overlay" id="guideModal">
+  <div class="modal wide">
+    <button class="modal-close" data-close-modal>✕</button>
+    <h2>📖 Tool Guide</h2>
+    <div class="lang-toggle">
+      <button class="active" id="guideHindiBtn">हिंदी</button>
+      <button id="guideEnglishBtn">English</button>
+    </div>
+    <div class="guide-body" id="guideBodyHindi">
+      <h3>Yeh tool kya karta hai?</h3>
+      <p>Yeh AI Keyword Research Tool aapko ek seed keyword se related keywords, long-tail keywords, questions, intent clusters aur content ideas turant deta hai — bina kisi paid SEO software ke.</p>
+      <h3>Use kaise karein?</h3>
+      <ol>
+        <li>Upar box mein apna seed keyword likhein (jaise "GST return filing").</li>
+        <li>Country aur language select karein.</li>
+        <li>"Research Keywords" button dabayein.</li>
+        <li>Tabs ke through Related, Long-tail, Questions, Clusters aur Content Ideas dekhein.</li>
+        <li>CSV export karke client ko report bhej sakte hain.</li>
+      </ol>
+      <h3>Free vs Paid</h3>
+      <p>Free plan mein har tab mein sirf 10 results dikhte hain. Lifetime unlock (₹499 one-time) lene par unlimited searches, full results aur unlimited CSV export milta hai.</p>
+      <h3>Freelancing tip</h3>
+      <p>CA firms, digital marketing agencies aur local businesses ko keyword research reports bech kar aap ₹500–₹3000 per report earn kar sakte hain. Isi tool se report banayein aur PDF/CSV client ko bhejein.</p>
+    </div>
+    <div class="guide-body" id="guideBodyEnglish" style="display:none;">
+      <h3>What does this tool do?</h3>
+      <p>This AI Keyword Research Tool generates related keywords, long-tail keywords, questions, intent-based clusters and content ideas from a single seed keyword.</p>
+      <h3>How to use</h3>
+      <ol>
+        <li>Enter your seed keyword above.</li>
+        <li>Select country and language.</li>
+        <li>Click "Research Keywords".</li>
+        <li>Browse tabs: Related, Long-tail, Questions, Clusters, Content Ideas.</li>
+        <li>Export results as CSV for client reports.</li>
+      </ol>
+      <h3>Free vs Paid</h3>
+      <p>Free plan shows 10 results per tab. Lifetime unlock (₹499 one-time) removes limits and unlocks full CSV export.</p>
+    </div>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ============ CONFIG (replace with real project values before going live) ============ */
+  const CONFIG = {
+    SUPABASE_URL: "https://YOUR_PROJECT.supabase.co",
+    SUPABASE_ANON_KEY: "YOUR_SUPABASE_ANON_KEY",
+    RAZORPAY_KEY_ID: "rzp_live_YOUR_KEY_ID",
+    PRICE_INR: 499,
+    TOOL_ID: "keyword-research-tool",
+    FREE_LIMIT: 10,
+    FREE_SEARCHES_PER_DAY: 5
+  };
+
+  const DEMO_MODE = CONFIG.SUPABASE_URL.includes("YOUR_PROJECT") || CONFIG.RAZORPAY_KEY_ID.includes("YOUR_KEY_ID");
+
+  /* ============ Device ID ============ */
+  function getDeviceId(){
+    let id = localStorage.getItem("iah_device_id");
+    if(!id){
+      id = "dev_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem("iah_device_id", id);
+    }
+    return id;
+  }
+  const DEVICE_ID = getDeviceId();
+  const STORAGE_UNLOCK_KEY = "iah_unlock_" + CONFIG.TOOL_ID;
+  const STORAGE_SEARCHES_KEY = "iah_searches_" + CONFIG.TOOL_ID;
+
+  let isUnlocked = false;
+  let currentResults = null;
+  let activeTab = "related";
+
+  /* ============ Toast ============ */
+  function toast(msg, type){
+    const c = document.getElementById("toast-container");
+    const t = document.createElement("div");
+    t.className = "toast" + (type === "error" ? " error" : "");
+    t.textContent = msg;
+    c.appendChild(t);
+    setTimeout(()=> t.remove(), 3800);
+  }
+
+  /* ============ Status Pill ============ */
+  function setStatus(mode){
+    const pill = document.getElementById("statusPill");
+    const text = document.getElementById("statusText");
+    pill.classList.remove("unlocked","demo");
+    if(mode === "unlocked"){
+      pill.classList.add("unlocked");
+      text.textContent = "Lifetime Unlocked";
+    } else if(mode === "demo"){
+      pill.classList.add("demo");
+      text.textContent = "Demo Mode";
+    } else {
+      text.textContent = "Free Plan";
+    }
+  }
+
+  /* ============ Supabase Edge Function Calls ============ */
+  async function callEdgeFunction(name, payload){
+    const res = await fetch(`${CONFIG.SUPABASE_URL}/functions/v1/${name}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${CONFIG.SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok){
+      const errText = await res.text().catch(()=> "");
+      throw new Error(`Edge function ${name} failed: ${res.status} ${errText}`);
+    }
+    return res.json();
+  }
+
+  async function checkUnlockStatus(){
+    if(DEMO_MODE){
+      isUnlocked = localStorage.getItem(STORAGE_UNLOCK_KEY) === "true";
+      setStatus(isUnlocked ? "unlocked" : "demo");
+      return;
+    }
+    try{
+      const data = await callEdgeFunction("check-unlock", { device_id: DEVICE_ID, tool_id: CONFIG.TOOL_ID });
+      isUnlocked = !!data.unlocked;
+      setStatus(isUnlocked ? "unlocked" : "free");
+    }catch(e){
+      console.error(e);
+      isUnlocked = localStorage.getItem(STORAGE_UNLOCK_KEY) === "true";
+      setStatus(isUnlocked ? "unlocked" : "free");
+    }
+    updateUnlockBanner();
+  }
+
+  function updateUnlockBanner(){
+    const banner = document.getElementById("unlockBanner");
+    banner.style.display = isUnlocked ? "none" : "flex";
+  }
+
+  /* ============ Razorpay Payment Flow ============ */
+  function loadRazorpayScript(){
+    return new Promise((resolve, reject)=>{
+      if(window.Razorpay) return resolve();
+      const s = document.createElement("script");
+      s.src = "https://checkout.razorpay.com/v1/checkout.js";
+      s.onload = resolve;
+      s.onerror = () => reject(new Error("Razorpay SDK failed to load"));
+      document.head.appendChild(s);
+    });
+  }
+
+  async function startPayment(){
+    if(DEMO_MODE){
+      // Simulated unlock flow for demo/testing before backend is wired up
+      toast("Demo mode: simulating payment success…");
+      setTimeout(()=>{
+        localStorage.setItem(STORAGE_UNLOCK_KEY, "true");
+        isUnlocked = true;
+        setStatus("unlocked");
+        updateUnlockBanner();
+        closeModal("unlockModal");
+        toast("🎉 Unlocked! (demo mode — connect Supabase + Razorpay for live payments)");
+        if(currentResults) renderAllTabs();
+      }, 1200);
+      return;
+    }
+    try{
+      await loadRazorpayScript();
+      const order = await callEdgeFunction("create-order", {
+        amount: CONFIG.PRICE_INR * 100,
+        device_id: DEVICE_ID,
+        tool_id: CONFIG.TOOL_ID
+      });
+      const rzp = new Razorpay({
+        key: CONFIG.RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: "IncomeAIHub by M.Dev",
+        description: "Keyword Research Tool — Lifetime Unlock",
+        order_id: order.id,
+        handler: async function(response){
+          try{
+            const verify = await callEdgeFunction("verify-payment", {
+              razorpay_order_id: response.razorpay_order_id,
+              razorpay_payment_id: response.razorpay_payment_id,
+              razorpay_signature: response.razorpay_signature,
+              device_id: DEVICE_ID,
+              tool_id: CONFIG.TOOL_ID
+            });
+            if(verify.success){
+              isUnlocked = true;
+              localStorage.setItem(STORAGE_UNLOCK_KEY, "true");
+              setStatus("unlocked");
+              updateUnlockBanner();
+              closeModal("unlockModal");
+              toast("🎉 Payment verified! Lifetime access unlocked.");
+              if(currentResults) renderAllTabs();
+            } else {
+              toast("Payment verification failed. Contact support.", "error");
+            }
+          }catch(e){
+            console.error(e);
+            toast("Verification error. If money was deducted, contact support.", "error");
+          }
+        },
+        theme: { color: "#d4af37" }
+      });
+      rzp.open();
+    }catch(e){
+      console.error(e);
+      toast("Payment could not start. Please try again.", "error");
+    }
+  }
+
+  /* ============ Free search limit (demo/local safeguard) ============ */
+  function getSearchesToday(){
+    const raw = localStorage.getItem(STORAGE_SEARCHES_KEY);
+    if(!raw) return { date: todayStr(), count: 0 };
+    try{
+      const parsed = JSON.parse(raw);
+      if(parsed.date !== todayStr()) return { date: todayStr(), count: 0 };
+      return parsed;
+    }catch(e){ return { date: todayStr(), count: 0 }; }
+  }
+  function todayStr(){ return new Date().toISOString().slice(0,10); }
+  function incrementSearchCount(){
+    const s = getSearchesToday();
+    s.count += 1;
+    localStorage.setItem(STORAGE_SEARCHES_KEY, JSON.stringify(s));
+    updateSearchesLeftLabel();
+  }
+  function updateSearchesLeftLabel(){
+    const el = document.getElementById("searchesLeft");
+    if(isUnlocked){ el.textContent = "Unlimited searches ✓"; return; }
+    const s = getSearchesToday();
+    const left = Math.max(0, CONFIG.FREE_SEARCHES_PER_DAY - s.count);
+    el.textContent = `${left} free searches left today`;
+  }
+
+  /* ============ AI Research Call ============ */
+  function buildPrompt(seed, country, language){
+    return `You are an SEO keyword research assistant for the ${country} market. Respond ONLY with valid minified JSON, no markdown, no commentary, matching exactly this schema:
+{
+ "related":[{"keyword":"","volume":"Low|Medium|High","competition":"Low|Medium|High","cpc":"₹ estimate"}],
+ "longtail":[{"keyword":"","volume":"Low|Medium|High","competition":"Low|Medium|High","cpc":"₹ estimate"}],
+ "questions":[{"keyword":"","intent":"Informational|Commercial|Transactional|Navigational"}],
+ "clusters":[{"name":"cluster name","intent":"Informational|Commercial|Transactional|Navigational","keywords":["",""]}],
+ "ideas":[{"type":"Blog Post|Video|Landing Page|Social Post|FAQ Page","title":"","description":""}]
+}
+Generate for seed keyword: "${seed}" in language: ${language}, targeting country: ${country}.
+Provide 18-25 items in "related", 15-20 in "longtail", 10-15 in "questions", 4-6 clusters with 4-8 keywords each, and 6 content ideas.
+Estimate volume/competition/cpc realistically based on typical patterns for this keyword topic and country — label clearly these are AI estimates, not live search data.
+Return ONLY the JSON object.`;
+  }
+
+  async function researchKeywords(seed, country, language){
+    if(DEMO_MODE){
+      await new Promise(r => setTimeout(r, 1100));
+      return generateMockData(seed);
+    }
+    const prompt = buildPrompt(seed, country, language);
+    const data = await callEdgeFunction("ai-proxy", {
+      device_id: DEVICE_ID,
+      tool_id: CONFIG.TOOL_ID,
+      prompt: prompt,
+      max_tokens: 4000
+    });
+    let raw = data.text || data.content || data.result || "";
+    raw = raw.trim().replace(/^```json/i,"").replace(/^```/,"").replace(/```$/,"").trim();
+    try{
+      return JSON.parse(raw);
+    }catch(e){
+      console.error("Failed to parse AI response", raw);
+      throw new Error("AI response could not be parsed. Please try again.");
+    }
+  }
+
+  function generateMockData(seed){
+    const vols = ["Low","Medium","High"];
+    const rnd = (arr) => arr[Math.floor(Math.random()*arr.length)];
+    const related = [];
+    const suffixes = ["price","near me","online","for beginners","cost in India","services","company","best","reviews","guide","2026","free","tips","checklist","comparison","vs","benefits","how to","meaning","course"];
+    suffixes.forEach(s => related.push({keyword:`${seed} ${s}`, volume:rnd(vols), competition:rnd(vols), cpc:`₹${(Math.random()*40+5).toFixed(1)}`}));
+    const longtail = [];
+    const ltPrefixes = ["how to choose","best way to do","step by step guide to","affordable","top rated","why you need","common mistakes in","how much does","is it worth","checklist for"];
+    ltPrefixes.forEach(p => longtail.push({keyword:`${p} ${seed}`, volume:rnd(["Low","Medium"]), competition:rnd(["Low","Medium"]), cpc:`₹${(Math.random()*25+3).toFixed(1)}`}));
+    const questions = [
+      `What is ${seed}?`,`How does ${seed} work?`,`Why is ${seed} important?`,`Who needs ${seed}?`,
+      `When should I do ${seed}?`,`Where can I get ${seed} in India?`,`How much does ${seed} cost?`,
+      `Is ${seed} worth it?`,`What are alternatives to ${seed}?`,`How long does ${seed} take?`
+    ].map(q => ({keyword:q, intent:rnd(["Informational","Commercial","Transactional","Navigational"])}));
+    const clusters = [
+      {name:"Informational", intent:"Informational", keywords:[`what is ${seed}`,`${seed} meaning`,`${seed} guide`,`${seed} explained`]},
+      {name:"Commercial Investigation", intent:"Commercial", keywords:[`best ${seed}`,`${seed} reviews`,`${seed} comparison`,`top ${seed} providers`]},
+      {name:"Transactional", intent:"Transactional", keywords:[`${seed} price`,`buy ${seed}`,`${seed} near me`,`hire ${seed} expert`]},
+      {name:"Local Intent", intent:"Transactional", keywords:[`${seed} in Raipur`,`${seed} in Chhattisgarh`,`${seed} near me`,`local ${seed} services`]}
+    ];
+    const ideas = [
+      {type:"Blog Post", title:`The Complete Guide to ${seed} in 2026`, description:"A comprehensive pillar post covering fundamentals, benefits and FAQs."},
+      {type:"Video", title:`${seed} Explained in 5 Minutes`, description:"Short explainer video for social distribution."},
+      {type:"Landing Page", title:`${seed} Services — Get a Free Quote`, description:"Conversion-focused page for local service leads."},
+      {type:"FAQ Page", title:`${seed}: Frequently Asked Questions`, description:"Answer top questions to capture featured snippets."},
+      {type:"Social Post", title:`5 Myths About ${seed}`, description:"Carousel post to boost engagement and shares."},
+      {type:"Blog Post", title:`${seed} vs Alternatives: Which is Right for You?`, description:"Comparison post targeting commercial-intent searchers."}
+    ];
+    return {related, longtail, questions, clusters, ideas};
+  }
+
+  /* ============ Rendering ============ */
+  function volBadge(level){
+    const cls = (level||"").toLowerCase();
+    return `<span class="badge ${cls==='low'?'low':cls==='high'?'high':'medium'}">${level||'—'}</span>`;
+  }
+  function intentBadge(intent){
+    return `<span class="badge intent">${intent||'—'}</span>`;
+  }
+
+  function renderTable(containerId, rows, limit, columns){
+    const container = document.getElementById(containerId);
+    if(!rows || !rows.length){
+      container.innerHTML = `<div class="empty-state">No data in this tab.</div>`;
+      return;
+    }
+    const visibleRows = isUnlocked ? rows : rows.slice(0, limit);
+    const lockedCount = isUnlocked ? 0 : Math.max(0, rows.length - limit);
+
+    let thead = "<tr>" + columns.map(c => `<th>${c.label}</th>`).join("") + "</tr>";
+    let tbody = visibleRows.map(row => {
+      return "<tr>" + columns.map(c => `<td>${c.render(row)}</td>`).join("") + "</tr>";
+    }).join("");
+
+    let lockedRows = "";
+    if(lockedCount > 0){
+      const dummyRow = "<tr class='locked-row'>" + columns.map(()=>`<td>••••••••</td>`).join("") + "</tr>";
+      lockedRows = dummyRow.repeat(Math.min(3, lockedCount));
+    }
+
+    container.innerHTML = `
+      <table>
+        <thead>${thead}</thead>
+        <tbody>${tbody}${lockedRows}</tbody>
+      </table>
+      ${lockedCount > 0 ? `<div style="padding:16px; text-align:center; color:var(--text-mute); font-size:12.5px;">+ ${lockedCount} more results — <a href="#" data-open-unlock style="color:var(--gold-soft); text-decoration:underline;">unlock full list</a></div>` : ""}
+    `;
+  }
+
+  function renderClusters(rows){
+    const container = document.getElementById("tab-clusters");
+    if(!rows || !rows.length){
+      container.innerHTML = `<div class="empty-state">No clusters generated.</div>`;
+      return;
+    }
+    const visible = isUnlocked ? rows : rows.slice(0,2);
+    let html = visible.map(cl => `
+      <div class="cluster-group">
+        <div class="cluster-head"><span>${cl.name}</span>${intentBadge(cl.intent)}</div>
+        <table>
+          <tbody>
+            ${(cl.keywords||[]).map(k => `<tr><td class="kw-cell">${k} <button class="copy-mini" data-copy="${escAttr(k)}">📋</button></td></tr>`).join("")}
+          </tbody>
+        </table>
+      </div>
+    `).join("");
+    if(!isUnlocked && rows.length > 2){
+      html += `<div style="padding:16px; text-align:center; color:var(--text-mute); font-size:12.5px;">+ ${rows.length-2} more clusters — <a href="#" data-open-unlock style="color:var(--gold-soft); text-decoration:underline;">unlock full list</a></div>`;
+    }
+    container.innerHTML = html;
+  }
+
+  function renderIdeas(rows){
+    const container = document.getElementById("tab-ideas");
+    if(!rows || !rows.length){
+      container.innerHTML = `<div class="empty-state">No content ideas generated.</div>`;
+      return;
+    }
+    const visible = isUnlocked ? rows : rows.slice(0,3);
+    let html = `<div class="content-ideas-grid">` + visible.map(idea => `
+      <div class="idea-card">
+        <span class="idea-type">${idea.type}</span>
+        <h4>${idea.title}</h4>
+        <p>${idea.description}</p>
+      </div>
+    `).join("") + `</div>`;
+    if(!isUnlocked && rows.length > 3){
+      html += `<div style="padding:0 16px 16px; text-align:center; color:var(--text-mute); font-size:12.5px;">+ ${rows.length-3} more ideas — <a href="#" data-open-unlock style="color:var(--gold-soft); text-decoration:underline;">unlock full list</a></div>`;
+    }
+    container.innerHTML = html;
+  }
+
+  function escAttr(s){ return String(s).replace(/"/g,"&quot;"); }
+
+  function renderAllTabs(){
+    if(!currentResults) return;
+
+    renderTable("tab-related", currentResults.related, CONFIG.FREE_LIMIT, [
+      {label:"Keyword", render:r=>`<span class="kw-cell">${r.keyword} <button class="copy-mini" data-copy="${escAttr(r.keyword)}">📋</button></span>`},
+      {label:"Volume", render:r=>volBadge(r.volume)},
+      {label:"Competition", render:r=>volBadge(r.competition)},
+      {label:"Est. CPC", render:r=>`<span style="font-family:var(--font-mono);">${r.cpc||'—'}</span>`}
+    ]);
+
+    renderTable("tab-longtail", currentResults.longtail, CONFIG.FREE_LIMIT, [
+      {label:"Keyword", render:r=>`<span class="kw-cell">${r.keyword} <button class="copy-mini" data-copy="${escAttr(r.keyword)}">📋</button></span>`},
+      {label:"Volume", render:r=>volBadge(r.volume)},
+      {label:"Competition", render:r=>volBadge(r.competition)},
+      {label:"Est. CPC", render:r=>`<span style="font-family:var(--font-mono);">${r.cpc||'—'}</span>`}
+    ]);
+
+    renderTable("tab-questions", currentResults.questions, CONFIG.FREE_LIMIT, [
+      {label:"Question", render:r=>`<span class="kw-cell">${r.keyword} <button class="copy-mini" data-copy="${escAttr(r.keyword)}">📋</button></span>`},
+      {label:"Intent", render:r=>intentBadge(r.intent)}
+    ]);
+
+    renderClusters(currentResults.clusters);
+    renderIdeas(currentResults.ideas);
+
+    document.getElementById("cnt-related").textContent = (currentResults.related||[]).length;
+    document.getElementById("cnt-longtail").textContent = (currentResults.longtail||[]).length;
+    document.getElementById("cnt-questions").textContent = (currentResults.questions||[]).length;
+    document.getElementById("cnt-clusters").textContent = (currentResults.clusters||[]).length;
+    document.getElementById("cnt-ideas").textContent = (currentResults.ideas||[]).length;
+
+    attachCopyButtons();
+    attachUnlockLinks();
+  }
+
+  function attachCopyButtons(){
+    document.querySelectorAll("[data-copy]").forEach(btn => {
+      btn.onclick = () => {
+        navigator.clipboard.writeText(btn.getAttribute("data-copy"));
+        toast("Copied: " + btn.getAttribute("data-copy"));
+      };
+    });
+  }
+  function attachUnlockLinks(){
+    document.querySelectorAll("[data-open-unlock]").forEach(a => {
+      a.onclick = (e) => { e.preventDefault(); openModal("unlockModal"); };
+    });
+  }
+
+  /* ============ Tabs ============ */
+  function switchTab(tab){
+    activeTab = tab;
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
+    document.querySelectorAll(".tab-panel").forEach(p => p.style.display = "none");
+    document.getElementById("tab-" + tab).style.display = "block";
+  }
+
+  /* ============ CSV Export ============ */
+  function exportCSV(){
+    if(!currentResults){ toast("Pehle research karein.", "error"); return; }
+    if(!isUnlocked){
+      toast("CSV export sirf unlocked users ke liye hai.", "error");
+      openModal("unlockModal");
+      return;
+    }
+    let rows = [["Section","Keyword/Title","Volume/Type","Competition/Intent","CPC/Description"]];
+    (currentResults.related||[]).forEach(r => rows.push(["Related", r.keyword, r.volume, r.competition, r.cpc]));
+    (currentResults.longtail||[]).forEach(r => rows.push(["Long-tail", r.keyword, r.volume, r.competition, r.cpc]));
+    (currentResults.questions||[]).forEach(r => rows.push(["Question", r.keyword, "", r.intent, ""]));
+    (currentResults.clusters||[]).forEach(c => (c.keywords||[]).forEach(k => rows.push(["Cluster: "+c.name, k, "", c.intent, ""])));
+    (currentResults.ideas||[]).forEach(i => rows.push(["Content Idea", i.title, i.type, "", i.description]));
+
+    const csv = rows.map(r => r.map(v => `"${String(v||"").replace(/"/g,'""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `keyword-research-${(document.getElementById("seedKeyword").value||"export").trim().replace(/\s+/g,"-")}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+    toast("CSV downloaded ✓");
+  }
+
+  function copyVisibleTab(){
+    if(!currentResults) return;
+    let list = [];
+    if(activeTab === "related") list = (currentResults.related||[]).map(r=>r.keyword);
+    else if(activeTab === "longtail") list = (currentResults.longtail||[]).map(r=>r.keyword);
+    else if(activeTab === "questions") list = (currentResults.questions||[]).map(r=>r.keyword);
+    else if(activeTab === "clusters") list = (currentResults.clusters||[]).flatMap(c=>c.keywords||[]);
+    else if(activeTab === "ideas") list = (currentResults.ideas||[]).map(i=>i.title);
+    const limited = isUnlocked ? list : list.slice(0, CONFIG.FREE_LIMIT);
+    navigator.clipboard.writeText(limited.join("\n"));
+    toast(`${limited.length} items copied ✓`);
+  }
+
+  /* ============ Modals ============ */
+  function openModal(id){ document.getElementById(id).classList.add("open"); }
+  function closeModal(id){ document.getElementById(id).classList.remove("open"); }
+
+  /* ============ Main Search Handler ============ */
+  async function handleResearch(){
+    const seed = document.getElementById("seedKeyword").value.trim();
+    if(!seed){ toast("Pehle ek seed keyword likhein.", "error"); return; }
+
+    if(!isUnlocked){
+      const s = getSearchesToday();
+      if(s.count >= CONFIG.FREE_SEARCHES_PER_DAY){
+        toast("Aaj ki free searches khatam ho gayi. Unlock kar ke unlimited use karein.", "error");
+        openModal("unlockModal");
+        return;
+      }
+    }
+
+    const country = document.getElementById("countrySel").value;
+    const language = document.getElementById("langSel").value;
+
+    document.getElementById("emptyState").style.display = "none";
+    document.getElementById("resultsArea").style.display = "none";
+    document.getElementById("loadingState").style.display = "block";
+    document.getElementById("researchBtn").disabled = true;
+
+    try{
+      const data = await researchKeywords(seed, country, language);
+      currentResults = data;
+      document.getElementById("toolbarKw").textContent = seed;
+      document.getElementById("loadingState").style.display = "none";
+      document.getElementById("resultsArea").style.display = "block";
+      switchTab("related");
+      renderAllTabs();
+      if(!isUnlocked) incrementSearchCount();
+      updateSearchesLeftLabel();
+    }catch(e){
+      console.error(e);
+      document.getElementById("loadingState").style.display = "none";
+      document.getElementById("emptyState").style.display = "block";
+      toast(e.message || "Kuch galat ho gaya. Dobara try karein.", "error");
+    }finally{
+      document.getElementById("researchBtn").disabled = false;
+    }
+  }
+
+  /* ============ Event Wiring ============ */
+  document.addEventListener("DOMContentLoaded", () => {
+    checkUnlockStatus();
+    updateSearchesLeftLabel();
+
+    document.getElementById("researchBtn").addEventListener("click", handleResearch);
+    document.getElementById("seedKeyword").addEventListener("keydown", e => { if(e.key === "Enter") handleResearch(); });
+    document.getElementById("clearBtn").addEventListener("click", () => {
+      document.getElementById("seedKeyword").value = "";
+      document.getElementById("resultsArea").style.display = "none";
+      document.getElementById("emptyState").style.display = "block";
+      currentResults = null;
+    });
+
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.getElementById("seedKeyword").value = chip.dataset.kw;
+        handleResearch();
+      });
+    });
+
+    document.querySelectorAll(".tab-btn").forEach(btn => {
+      btn.addEventListener("click", () => switchTab(btn.dataset.tab));
+    });
+
+    document.getElementById("exportBtn").addEventListener("click", exportCSV);
+    document.getElementById("copyAllBtn").addEventListener("click", copyVisibleTab);
+
+    document.getElementById("unlockCta").addEventListener("click", () => openModal("unlockModal"));
+    document.getElementById("payNowBtn").addEventListener("click", startPayment);
+    document.querySelectorAll("[data-close-modal]").forEach(btn => {
+      btn.addEventListener("click", (e) => closeModal(e.target.closest(".modal-overlay").id));
+    });
+    document.querySelectorAll(".modal-overlay").forEach(overlay => {
+      overlay.addEventListener("click", (e) => { if(e.target === overlay) closeModal(overlay.id); });
+    });
+
+    document.getElementById("guideBtn").addEventListener("click", () => openModal("guideModal"));
+    document.getElementById("guideHindiBtn").addEventListener("click", () => {
+      document.getElementById("guideHindiBtn").classList.add("active");
+      document.getElementById("guideEnglishBtn").classList.remove("active");
+      document.getElementById("guideBodyHindi").style.display = "block";
+      document.getElementById("guideBodyEnglish").style.display = "none";
+    });
+    document.getElementById("guideEnglishBtn").addEventListener("click", () => {
+      document.getElementById("guideEnglishBtn").classList.add("active");
+      document.getElementById("guideHindiBtn").classList.remove("active");
+      document.getElementById("guideBodyEnglish").style.display = "block";
+      document.getElementById("guideBodyHindi").style.display = "none";
+    });
+
+    if(DEMO_MODE){
+      console.warn("DEMO_MODE active: replace CONFIG.SUPABASE_URL, SUPABASE_ANON_KEY and RAZORPAY_KEY_ID with real values before going live.");
+    }
+  });
+
+})();
+</script>
+
+</body>
+</html>
